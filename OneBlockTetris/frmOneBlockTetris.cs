@@ -28,6 +28,22 @@ namespace OneBlockTetris
         private void FrmOneBlockTetris_Load(object sender, EventArgs e)
         {
             StartGame();
+            // instellen dat er iets moet gebeuren wanneer een toets ingedrukt wordt
+            KeyDown += FrmOneBlockTetris_KeyDown;
+        }
+
+        private void FrmOneBlockTetris_KeyDown(object sender, KeyEventArgs e)
+        {
+            // code voor drukken op pijltjes links en rechts van toetsenbord
+            switch(e.KeyCode)
+            {
+                case Keys.Left:
+                    Game.LeftPressed = true;
+                    break;
+                case Keys.Right:
+                    Game.RightPressed = true;
+                    break;
+            }
         }
     }
 }

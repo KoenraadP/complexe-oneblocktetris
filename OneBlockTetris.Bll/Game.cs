@@ -51,7 +51,7 @@ namespace OneBlockTetris.Bll
             LinesTotal = 0;
             LinesThisLevel = 0;
             LinesToAdvance = 10;
-            Speed = 500; // milliseconden, 1 seconde is 1000 ms
+            Speed = 100; // milliseconden, 1 seconde is 1000 ms
             SpeedUp = 100; // hoeveelheid milliseconden die er van de snelheid afgetrokken wordt per level
 
             // maak een nieuw speelveld
@@ -62,7 +62,7 @@ namespace OneBlockTetris.Bll
                 // en twintig blokjes in de hoogte
                 Width = PlayfieldColumns * BlockSize,
                 Height = PlayfieldRows * BlockSize,
-                BackColor = Color.LightGray                
+                BackColor = Color.LightGray
             };
             // voeg het speelveld toe aan de form
             MainForm.Controls.Add(Playfield);
@@ -80,7 +80,7 @@ namespace OneBlockTetris.Bll
                 Interval = Speed // interval in milliseconden
             };
             // event handler toevoegen voor de timer
-            GameTimer.Tick += GameTimer_Tick; 
+            GameTimer.Tick += GameTimer_Tick;
             GameTimer.Start();
         }
 
@@ -93,7 +93,16 @@ namespace OneBlockTetris.Bll
         // code om blokje te verplaatsen
         private void MoveBlock()
         {
+            // controleren of de onderste rij bereikt werd
+            if (ActiveBlock.CurrentRow == PlayfieldRows - 1)
+            {
+                // als het blokje de onderkant van het speelveld bereikt heeft
+                // dan moet er een nieuw blokje gemaakt worden
+                NewBlock();
+            }
+
             ActiveBlock.Top += BlockSize; // blokje 1 rij naar beneden verplaatsen
+            ActiveBlock.CurrentRow++; // huidige rij verhogen         
         }
 
         private void NewBlock()
