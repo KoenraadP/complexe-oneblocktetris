@@ -60,6 +60,8 @@ namespace OneBlockTetris.Bll
                 Height = PlayfieldRows * BlockSize,
                 BackColor = Color.LightGray                
             };
+            // voeg het speelveld toe aan de form
+            MainForm.Controls.Add(Playfield);
 
             // alternatieve manier van playfield maken
             //Playfield = new Panel();
