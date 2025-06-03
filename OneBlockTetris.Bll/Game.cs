@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using OneBlockTetris.Entities;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace OneBlockTetris.Bll
@@ -33,6 +34,8 @@ namespace OneBlockTetris.Bll
         public int Speed { get; set; }
         // hoe veel sneller moeten de blokjes vallen per level
         public int SpeedUp { get; set; }
+        // de huidige blok die aan het vallen is
+        public Block ActiveBlock { get; set; }
         #endregion
 
         public Game(Form form)
@@ -66,6 +69,18 @@ namespace OneBlockTetris.Bll
             // alternatieve manier van playfield maken
             //Playfield = new Panel();
             //Playfield.Width = ...
+        }
+
+        private void NewBlock()
+        {
+            // hier komt de code om een nieuw blokje te maken
+            // en toe te voegen aan het speelveld
+            // BlockSize werd ingesteld op 25 pixels in de constructor van Game
+            ActiveBlock = new Block(BlockSize)
+            {
+                CurrentRow = 0,
+                CurrentColumn = PlayfieldColumns / 2 - 1 // blokje start 'ongeveer' in het midden van het speelveld 
+            };
         }
     }
 }
