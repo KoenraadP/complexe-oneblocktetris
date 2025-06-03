@@ -1,4 +1,5 @@
 ﻿using OneBlockTetris.Entities;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -26,7 +27,7 @@ namespace OneBlockTetris.Bll
         // instellen hoeveel lijnen er moeten gemaakt worden om naar het volgende level te gaan
         public int LinesToAdvance { get; set; }
         // timer die automatisch de blokjes laat vallen
-        public Timer GameTime { get; set; }
+        public Timer GameTimer { get; set; }
         // controleren of de speler een blokje naar links of rechts wil bewegen
         public bool LeftPressed { get; set; }
         public bool RightPressed { get; set; }
@@ -69,6 +70,30 @@ namespace OneBlockTetris.Bll
             // alternatieve manier van playfield maken
             //Playfield = new Panel();
             //Playfield.Width = ...
+
+            // eerste blokje aanmaken en plaatsen
+            NewBlock();
+
+            // timer aanmaken
+            GameTimer = new Timer
+            {
+                Interval = Speed // interval in milliseconden
+            };
+            // event handler toevoegen voor de timer
+            GameTimer.Tick += GameTimer_Tick; 
+            GameTimer.Start();
+        }
+
+        // wat moet er gebeuren iedere keer de timer 'tickt'
+        private void GameTimer_Tick(object sender, EventArgs e)
+        {
+            MoveBlock();
+        }
+
+        // code om blokje te verplaatsen
+        private void MoveBlock()
+        {
+            ActiveBlock.Top += BlockSize; // blokje 1 rij naar beneden verplaatsen
         }
 
         private void NewBlock()
@@ -81,6 +106,15 @@ namespace OneBlockTetris.Bll
                 CurrentRow = 0,
                 CurrentColumn = PlayfieldColumns / 2 - 1 // blokje start 'ongeveer' in het midden van het speelveld 
             };
+
+            // locatie van blokje instellen
+            ActiveBlock.Location = new Point(
+                ActiveBlock.CurrentColumn * BlockSize,
+                ActiveBlock.CurrentRow * BlockSize
+            );
+
+            // voeg het blokje toe aan het speelveld
+            Playfield.Controls.Add(ActiveBlock);
         }
     }
 }
